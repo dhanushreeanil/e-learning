@@ -1,55 +1,157 @@
-import React from 'react'
-import { BrowserRouter, Link, Route, withRouter } from 'react-router-dom'
+import React from "react";
+import { Link, Route, withRouter } from "react-router-dom";
 
-import Register from './admin/Register'
-import Login from "./admin/Login"
-import AdminAccount from './admin/AdminAccount'
-import Home from './Home'
-import AdminCourses from './admin/AdminCourses'
+import Home from "./Home";
+import AdminRegister from "./admin/AdminRegister";
+import Login from "./admin/AdminLogin";
+import AdminAccount from "./admin/AdminAccount";
+import AdminCourses from "./admin/AdminCourses";
+import StudentLogin from "./students/StudentLogin";
+import StudentRegister from "./admin/StudentRegister";
 
 const NavBar = (props) => {
+  const { isLoggedIn, handleAuth } = props;
 
-    const { isLoggedIn, handleAuth } = props
+  return (
+    <div>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container-fluid">
+          <a href="#" className="navbar-brand">
+            {" "}
+            REACH ACADEMY{" "}
+          </a>
+          <button
+            type="button"
+            className="navbar-toggler"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarMenu">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link className="nav-link" to="/">
+                  {" "}
+                  Home{" "}
+                </Link>
+              </li>
+              <li className="nav-item dropdown">
+                <Link
+                  className="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  to="/admin"
+                >
+                  {" "}
+                  Admin{" "}
+                </Link>
 
-    return (
+                {isLoggedIn ? (
+                  <ul className="dropdown-menu">
+                    <li>
+                      <Link className="dropdown-item" to="/admin/account">
+                        Account
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/admin/courses">
+                        Courses
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/admin/students">
+                        Student
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          localStorage.removeItem("adminToken");
+                          alert(`successfully logged-out.`);
+                          handleAuth();
+                          props.history.push("/");
+                        }}
+                      >
+                        {" "}
+                        Logout
+                      </Link>
+                    </li>
+                  </ul>
+                ) : (
+                  <ul className="dropdown-menu">
+                    <li>
+                      <Link className="dropdown-item" to="/admin/register">
+                        {" "}
+                        Register{" "}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/admin/login">
+                        {" "}
+                        Login{" "}
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+              <li className="nav-item dropdown">
+                <Link
+                  className="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  to="/student"
+                >
+                  {" "}
+                  Student{" "}
+                </Link>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link className="dropdown-item" to="/student/login">
+                      {" "}
+                      Login{" "}
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-            <div>
-            <Link to="/"> Home | </Link>
-                { isLoggedIn ? 
-                    ( <React.Fragment> 
-                        <Link to="/admin/account"> Account | </Link>
-                        <Link to="/admin/courses"> Courses | </Link> 
-                        <Link onClick = {(e)=>{ 
-                            e.preventDefault()
-                            localStorage.removeItem('token')
-                            alert(`successfully logged-out.`)
-                            handleAuth()
-                            props.history.push('/')
-                            }}> Logout 
-                        </Link> 
-                    </React.Fragment> ) 
-                    : 
-                    ( <React.Fragment>
-                        <Link to="/admin/register" > Register | </Link>
-                        <Link to="/admin/login"> Login </Link>
-                    </React.Fragment> )
-                }
-                
-                <Route exact path="/" component={Home} />
-                <Route exact path="/admin/register" component = { Register }  />
-                <Route exact path="/admin/login" render = { (props) => {
-                        return <Login { ...props } handleAuth = { handleAuth } /> 
-                    }}   />
-                <Route exact path="/admin/account"  render = { (props) => {
-                        return <AdminAccount { ...props } isLoggedIn = { isLoggedIn } /> 
-                    }}   />
-                <Route exact path="/admin/courses"  render = { (props) => {
-                        return <AdminCourses { ...props } isLoggedIn = { isLoggedIn } /> 
-                    }}  />
-            </div>
-        
-    )
-}
+      <Route exact path="/" component={Home} />
+      <Route exact path="/admin/register" component={AdminRegister} />
+      <Route
+        exact
+        path="/admin/login"
+        render={(props) => {
+          return <Login {...props} handleAuth={handleAuth} />;
+        }}
+      />
+      <Route
+        exact
+        path="/admin/account"
+        render={(props) => {
+          return <AdminAccount {...props} isLoggedIn={isLoggedIn} />;
+        }}
+      />
+      <Route
+        exact
+        path="/admin/courses"
+        render={(props) => {
+          return <AdminCourses {...props} isLoggedIn={isLoggedIn} />;
+        }}
+      />
+      <Route
+        exact
+        path="/admin/students"
+        render={(props) => {
+          return <StudentRegister {...props} isLoggedIn={isLoggedIn} />;
+        }}
+      />
+      <Route path="/student/login" component={StudentLogin} />
+    </div>
+  );
+};
 
-export default withRouter(NavBar)
-
+export default withRouter(NavBar);

@@ -1,23 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
-import App from './components/App'
-import configureStore from './store/configureStore'
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import App from "./components/App";
+import configureStore from "./store/configureStore";
 
-const store = configureStore()
+const store = configureStore();
 
-// // to read updated state value
-store.subscribe(()=>{
-    console.log('state-updated',store.getState())
-})
+store.subscribe(() => {
+  console.log("state-updated", store.getState());
+});
 
 ReactDOM.render(
-  <Provider store = { store } >
+  <Provider store={store}>
     <BrowserRouter>
-     <App />
+      <App />
     </BrowserRouter>
   </Provider>,
-  document.getElementById('root')
-)
+  document.getElementById("root")
+);

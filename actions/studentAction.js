@@ -1,13 +1,20 @@
 import axios from "axios";
 
-// register
-
-export const startRegisterAdmin = (formData, redirect) => {
+export const startRegisterStudent = (formData, redirect) => {
   return (dispatch) => {
     axios
-      .post(`https://dct-e-learning.herokuapp.com/api/admin/register`, formData)
+      .post(
+        `https://dct-e-learning.herokuapp.com/api/admin/students`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("adminToken"),
+          },
+        },
+        formData
+      )
       .then((response) => {
         const result = response.data;
+        console.log("student register", result);
         if (result.hasOwnProperty("errors")) {
           alert(result.message);
         } else {
@@ -24,17 +31,17 @@ export const startRegisterAdmin = (formData, redirect) => {
 
 // login
 
-export const startLoginAdmin = (formData, redirect) => {
+export const startLoginStudent = (formData, redirect) => {
   return (dispatch) => {
     axios
-      .post(`https://dct-e-learning.herokuapp.com/api/admin/login`, formData)
+      .post(`https://dct-e-learning.herokuapp.com/api/students/login`, formData)
       .then((response) => {
         const result = response.data;
         if (result.hasOwnProperty("errors")) {
           alert(result.errors);
         } else {
-          localStorage.setItem("adminToken", result.token);
-          dispatch(startGetadmin());
+          localStorage.setItem("studentToken", result.token);
+          dispatch(startGetStudent());
           redirect();
           alert(`successfully Logged-In`);
           console.log("login-action - result", result);
@@ -47,12 +54,12 @@ export const startLoginAdmin = (formData, redirect) => {
   };
 };
 
-export const startGetadmin = () => {
+export const startGetStudent = () => {
   return (dispatch) => {
     axios
-      .get(`https://dct-e-learning.herokuapp.com/api/admin/account`, {
+      .get(`https://dct-e-learning.herokuapp.com/api//students/:id`, {
         headers: {
-          Authorization: localStorage.getItem("adminToken"),
+          Authorization: localStorage.getItem("studentToken"),
         },
       })
       .then((response) => {
@@ -61,11 +68,8 @@ export const startGetadmin = () => {
         if (result.hasOwnProperty("errors")) {
           alert(result.errors);
         } else {
-          dispatch(setAdmin(result));
+          dispatch(setStudent(result));
           console.log("login-successfull", result);
-          // if (result.role === "admin") {
-          //   dispatch(startRegisterStudent());
-          // }
         }
       })
       .catch((err) => {
@@ -75,10 +79,10 @@ export const startGetadmin = () => {
   };
 };
 
-export const setAdmin = (admin) => {
-  console.log("set-admin", admin);
+export const setStudent = (student) => {
+  console.log("set-student", student);
   return {
-    type: "SET_ADMIN",
-    payload: admin,
+    type: "SET_STUDENT",
+    payload: student,
   };
 };

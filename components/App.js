@@ -1,28 +1,43 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
-import '../App.css'
-import NavBar from './NavBar'
+import "../App.css";
+import NavBar from "./NavBar";
 
 const App = (props) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const handleAuth = () => {
+    setIsLoggedIn(!isLoggedIn);
+  };
 
-    const handleAuth = () => {
-      setIsLoggedIn(!isLoggedIn)
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      handleAuth();
     }
-  
-    useEffect(()=>{
-        if(localStorage.getItem('token')){
-            handleAuth()
-        }
-    },[])
+  }, []);
 
-    return (
-        <div className="container">
-            <h1> REACH ACADEMY </h1>
-            <NavBar handleAuth = { handleAuth } isLoggedIn = { isLoggedIn } />
-        </div>
-    )
-}
+  // const [isAdmin, setIsAdmin] = useState(false);
 
-export default App
+  // const handleAdmin = () => {
+  //   setIsAdmin(!isAdmin);
+  // };
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("adminToken")) {
+  //     handleAdmin();
+  //   }
+  // }, []);
+
+  return (
+    <div className="container">
+      <NavBar
+        handleAuth={handleAuth}
+        isLoggedIn={isLoggedIn}
+        // isAdmin={isAdmin}
+        // handleAdmin={handleAdmin}
+      />
+    </div>
+  );
+};
+
+export default App;
