@@ -18,7 +18,6 @@ const Login = (props) => {
   };
 
   const onSubmit = (values, onSubmitProps) => {
-    // handleAdmin();
     dispatch(startLoginAdmin(values, redirect));
     console.log("formdata-values", values);
     onSubmitProps.resetForm();
@@ -32,16 +31,15 @@ const Login = (props) => {
 
   return (
     <div className="container-fluid">
-      <div className="jumbotron">
-        <h2> Login With Us</h2>
-      </div>
+      <p className="display-6" style={{ margin: "20px" }}>
+        Login With Us
+      </p>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <Form>
-          {/* automatically links handleSubmit event to method passed into formik */}
+        <Form className="form-group" style={{ width: "50%" }}>
           <Field
             className="form-control"
             type="text"
@@ -58,8 +56,18 @@ const Login = (props) => {
           />
           <ErrorMessage name="password" />
           <br />
-          <Field className="btn btn-success" type="submit" value="Login" />
-          <Field className="btn btn-danger" type="submit" value="Cancel" />
+          <Field
+            className="btn btn-outline-primary"
+            style={{ margin: "5px" }}
+            type="submit"
+            value="Login"
+          />
+          <Field
+            className="btn btn-outline-danger"
+            style={{ margin: "5px" }}
+            type="submit"
+            value="Cancel"
+          />
         </Form>
       </Formik>
     </div>

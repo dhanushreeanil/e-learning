@@ -1,36 +1,42 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { startGetadmin } from '../../actions/adminAction'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { startGetadmin } from "../../actions/adminAction";
 
 const AdminAccount = (props) => {
+  const dispatch = useDispatch();
 
-    const { isLoggedIn } = props
+  useEffect(() => {
+    dispatch(startGetadmin());
+  }, []);
 
-    const dispatch = useDispatch()
+  const admin = useSelector((state) => {
+    return state.admin;
+  });
+  // console.log("admin-account", admin);
 
-    useEffect(()=>{
-        dispatch(startGetadmin())
-    },[])
-
-    const admin = useSelector((state)=>{
-        return state.admin
-    })
-
-    
-
-    console.log("admin-account", admin)
-    return (
-        <div className="container">
-            <h2> Admin Account </h2>
-                { isLoggedIn ?
-                 <div>
-                    <h3> Email - { admin.email } </h3>
-                    <h3> Username - { admin.username } </h3>
-                    <h3> Role - { admin.role } </h3>
-                </div> : null
-                }
+  return (
+    <div className="container">
+      <p className="display-6" style={{ margin: "20px" }}>
+        Account Details{" "}
+      </p>
+      {admin.role === "admin" ? (
+        <div>
+          <p>
+            {" "}
+            Email - <strong> {admin.email} </strong>{" "}
+          </p>
+          <p>
+            {" "}
+            Username - <strong> {admin.username} </strong>{" "}
+          </p>
+          <p>
+            {" "}
+            Role - <strong> {admin.role} </strong>{" "}
+          </p>
         </div>
-    )
-}
+      ) : null}
+    </div>
+  );
+};
 
-export default AdminAccount
+export default AdminAccount;

@@ -31,15 +31,15 @@ const StudentLogin = (props) => {
 
   return (
     <div className="container-fluid">
-      <div className="jumbotron">
-        <h2> Login With Us</h2>
+      <div className="display-6">
+        <p style={{ margin: "20px" }}> Login With Us</p>
       </div>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <Form>
+        <Form className="form-group" style={{ width: "50%" }}>
           {/* automatically links handleSubmit event to method passed into formik */}
           <Field
             className="form-control"
@@ -57,8 +57,18 @@ const StudentLogin = (props) => {
           />
           <ErrorMessage name="password" />
           <br />
-          <Field className="btn btn-primary" type="submit" value="Login" />
-          <Field className="btn btn-danger" type="submit" value="Cancel" />
+          <Field
+            className="btn btn-outline-primary"
+            style={{ margin: "5px" }}
+            type="submit"
+            value="Login"
+          />
+          <Field
+            className="btn btn-outline-danger"
+            style={{ margin: "5px" }}
+            type="submit"
+            value="Cancel"
+          />
         </Form>
       </Formik>
     </div>

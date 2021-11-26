@@ -1,24 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Route, withRouter } from "react-router-dom";
 
 import Home from "./Home";
 import AdminRegister from "./admin/AdminRegister";
 import Login from "./admin/AdminLogin";
 import AdminAccount from "./admin/AdminAccount";
-import AdminCourses from "./admin/AdminCourses";
+import AdminCoursesList from "./admin/AdminCoursesList";
 import StudentLogin from "./students/StudentLogin";
-import StudentRegister from "./admin/StudentRegister";
+import StudentList from "./students/StudentList";
+import { startGetadmin } from "../actions/adminAction";
+import { useDispatch } from "react-redux";
 
 const NavBar = (props) => {
   const { isLoggedIn, handleAuth } = props;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(startGetadmin(token));
+    }
+  }, []);
 
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           <a href="#" className="navbar-brand">
-            {" "}
-            REACH ACADEMY{" "}
+            REACH ACADEMY
           </a>
           <button
             type="button"
@@ -68,7 +78,7 @@ const NavBar = (props) => {
                         className="dropdown-item"
                         onClick={(e) => {
                           e.preventDefault();
-                          localStorage.removeItem("adminToken");
+                          localStorage.removeItem("token");
                           alert(`successfully logged-out.`);
                           handleAuth();
                           props.history.push("/");
@@ -139,14 +149,14 @@ const NavBar = (props) => {
         exact
         path="/admin/courses"
         render={(props) => {
-          return <AdminCourses {...props} isLoggedIn={isLoggedIn} />;
+          return <AdminCoursesList {...props} isLoggedIn={isLoggedIn} />;
         }}
       />
       <Route
         exact
         path="/admin/students"
         render={(props) => {
-          return <StudentRegister {...props} isLoggedIn={isLoggedIn} />;
+          return <StudentList {...props} isLoggedIn={isLoggedIn} />;
         }}
       />
       <Route path="/student/login" component={StudentLogin} />

@@ -13,10 +13,6 @@ const StudentRegister = (props) => {
   });
   console.log("admin", admin);
 
-  const redirect = () => {
-    props.history.push("/");
-  };
-
   const initialValues = {
     name: "",
     email: "",
@@ -26,11 +22,10 @@ const StudentRegister = (props) => {
   const onSubmit = (values, onSubmitProps) => {
     if (admin.role === "admin") {
       const result = { ...values, isAllowed: true };
-      dispatch(startRegisterStudent(result, redirect));
+      dispatch(startRegisterStudent(result));
       console.log("formdata-values", result);
     } else {
-      // alert("cannot create accunt as you are not admin")
-      console.log("cannot create accunt as you are not admin");
+      console.log("cannot create account as you are not admin");
     }
     onSubmitProps.resetForm();
   };
@@ -43,16 +38,12 @@ const StudentRegister = (props) => {
 
   return (
     <div className="container-fluid">
-      <div className="jumbotron">
-        <h2> Register With Us</h2>
-      </div>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <Form>
-          {/* automatically links handleSubmit event to method passed into formik */}
+        <Form className="form-group" style={{ width: "50%" }}>
           <Field
             className="form-control"
             type="text"
@@ -78,16 +69,10 @@ const StudentRegister = (props) => {
           <ErrorMessage name="password" />
           <br />
           <Field
-            className="btn btn-success"
+            className="btn btn-outline-primary"
             type="submit"
             name="register"
             value="Register"
-          />
-          <Field
-            className="btn btn-primary"
-            type="submit"
-            name="edit"
-            value="Edit"
           />
         </Form>
       </Formik>

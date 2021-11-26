@@ -33,7 +33,7 @@ export const startLoginAdmin = (formData, redirect) => {
         if (result.hasOwnProperty("errors")) {
           alert(result.errors);
         } else {
-          localStorage.setItem("adminToken", result.token);
+          localStorage.setItem("token", result.token);
           dispatch(startGetadmin());
           redirect();
           alert(`successfully Logged-In`);
@@ -52,7 +52,7 @@ export const startGetadmin = () => {
     axios
       .get(`https://dct-e-learning.herokuapp.com/api/admin/account`, {
         headers: {
-          Authorization: localStorage.getItem("adminToken"),
+          Authorization: localStorage.getItem("token"),
         },
       })
       .then((response) => {
@@ -63,9 +63,6 @@ export const startGetadmin = () => {
         } else {
           dispatch(setAdmin(result));
           console.log("login-successfull", result);
-          // if (result.role === "admin") {
-          //   dispatch(startRegisterStudent());
-          // }
         }
       })
       .catch((err) => {

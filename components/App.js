@@ -10,32 +10,9 @@ const App = (props) => {
     setIsLoggedIn(!isLoggedIn);
   };
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      handleAuth();
-    }
-  }, []);
-
-  // const [isAdmin, setIsAdmin] = useState(false);
-
-  // const handleAdmin = () => {
-  //   setIsAdmin(!isAdmin);
-  // };
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("adminToken")) {
-  //     handleAdmin();
-  //   }
-  // }, []);
-
   return (
     <div className="container">
-      <NavBar
-        handleAuth={handleAuth}
-        isLoggedIn={isLoggedIn}
-        // isAdmin={isAdmin}
-        // handleAdmin={handleAdmin}
-      />
+      <NavBar handleAuth={handleAuth} isLoggedIn={isLoggedIn} />
     </div>
   );
 };

@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const Home = (props) => {
-    return (
-        <div>
-            <h2> Home </h2>
-        </div>
-    )
-}
+  return (
+    <p className="display-6" style={{ margin: "20px" }}>
+      Home
+    </p>
+  );
+};
 
-export default Home
+export default Home;

@@ -37,16 +37,15 @@ const AdminRegister = (props) => {
 
   return (
     <div className="container-fluid">
-      <div className="jumbotron">
-        <h2> Register With Us</h2>
+      <div className="display-6">
+        <p style={{ margin: "20px" }}> Register With Us</p>
       </div>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <Form>
-          {/* automatically links handleSubmit event to method passed into formik */}
+        <Form className="form-group" style={{ width: "50%" }}>
           <Field
             className="form-control"
             type="text"
@@ -88,13 +87,15 @@ const AdminRegister = (props) => {
           <ErrorMessage name="academy.website" />
           <br />
           <Field
-            className="btn btn-primary"
+            className="btn btn-outline-primary"
+            style={{ margin: "5px" }}
             type="submit"
             name="register"
             value="Register"
           />
           <Field
-            className="btn btn-warning"
+            className="btn btn-outline-secondary"
+            style={{ margin: "5px" }}
             type="submit"
             name="edit"
             value="Edit"
