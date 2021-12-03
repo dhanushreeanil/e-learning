@@ -1,5 +1,7 @@
 import axios from "axios";
 
+// register student
+
 export const startRegisterStudent = (formData) => {
   return (dispatch) => {
     axios
@@ -56,10 +58,10 @@ export const startLoginStudent = (formData, redirect) => {
 
 // get single student
 
-export const startGetStudent = () => {
+export const startGetStudent = (student) => {
   return (dispatch) => {
     axios
-      .get(`https://dct-e-learning.herokuapp.com/api/students/:id`, {
+      .get(`https://dct-e-learning.herokuapp.com/api/students/${student._id}`, {
         headers: {
           Authorization: localStorage.getItem("token"),
         },
@@ -70,13 +72,44 @@ export const startGetStudent = () => {
         if (result.hasOwnProperty("errors")) {
           alert(result.errors);
         } else {
-          console.log("login-successfull", result);
-          // dispatch(setStudent(result));
+          console.log("get student", result);
+          dispatch(editStudent(result));
         }
       })
       .catch((err) => {
         const error = err.message;
         console.log(error);
+      });
+  };
+};
+
+// edit student
+
+export const editStudent = (student) => {
+  console.log("edit-student", student);
+  return {
+    type: "EDIT_STUDENT",
+    payload: student,
+  };
+};
+
+// update student
+
+export const startUpdateStudent = (student) => {
+  return (dispatch) => {
+    axios
+      .put(`https://dct-e-learning.herokuapp.com/api/students/${student._id}`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        const result = response.data;
+        console.log("update api", result);
+        // dispatch(editStudent(result));
+      })
+      .catch((error) => {
+        alert(error.message);
       });
   };
 };

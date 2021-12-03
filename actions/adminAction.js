@@ -47,6 +47,8 @@ export const startLoginAdmin = (formData, redirect) => {
   };
 };
 
+// get admin account
+
 export const startGetadmin = () => {
   return (dispatch) => {
     axios
@@ -62,7 +64,7 @@ export const startGetadmin = () => {
           alert(result.errors);
         } else {
           dispatch(setAdmin(result));
-          console.log("login-successfull", result);
+          console.log("get admin", result);
         }
       })
       .catch((err) => {
@@ -72,10 +74,49 @@ export const startGetadmin = () => {
   };
 };
 
+// set admin
+
 export const setAdmin = (admin) => {
   console.log("set-admin", admin);
   return {
     type: "SET_ADMIN",
+    payload: admin,
+  };
+};
+
+// update admin
+
+export const startUpdateAdmin = (formData, handleEdit) => {
+  return (dispatch) => {
+    axios
+      .put(`https://dct-e-learning.herokuapp.com/api/admin`, formData, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        const result = response.data;
+        if (result.hasOwnProperty("errors")) {
+          alert(result.errors);
+        } else {
+          dispatch(editAdmin(result));
+          handleEdit();
+          console.log("update admin - result", result);
+        }
+      })
+      .catch((err) => {
+        const error = err.message;
+        console.log("error in login post api", error);
+      });
+  };
+};
+
+// // edit admin
+
+export const editAdmin = (admin) => {
+  console.log("edit-admin", admin);
+  return {
+    type: "EDIT_ADMIN",
     payload: admin,
   };
 };

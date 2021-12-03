@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import * as Yup from "yup";
 
-import { startRegisterAdmin } from "../../actions/adminAction";
+import { startCourseAdmin } from "../../actions/AdminCourseAction";
 
 const AdminCourseForm = (props) => {
   const dispatch = useDispatch();
@@ -15,25 +17,31 @@ const AdminCourseForm = (props) => {
   const initialValues = {
     name: "",
     description: "",
-    author: "",
-    category: [],
-    level: "",
+    duration: 0,
+    releaseDate: "",
     isDelete: false,
+    category: "",
+    validity: 0,
+    level: "",
+    author: "",
   };
 
   const onSubmit = (values, onSubmitProps) => {
-    dispatch(startRegisterAdmin(values, redirect));
+    dispatch(startCourseAdmin(values, redirect));
+    alert(`successfully created course`);
     console.log("formdata-values", values);
     onSubmitProps.resetForm();
+    props.handleClick();
   };
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Required *"),
     description: Yup.string().required("Required *"),
+    duration: Yup.number().required("Required *"),
     author: Yup.string().required("Required *"),
-    name: Yup.string().required("Required *"),
-    // category: Yup.array().oneOf([true], "Required *"),
-    // level: Yup.boolean().required("Required *").oneOf([true]),
+    category: Yup.string().required("Required *"),
+    level: Yup.string().required("Required *"),
+    validity: Yup.number().required("Required *"),
   });
 
   return (
@@ -53,14 +61,38 @@ const AdminCourseForm = (props) => {
           <ErrorMessage name="name" />
           <br />
           <Field
-            class="form-control"
+            className="form-control"
             name="description"
             placeholder="description"
             as="textarea"
           />
           <ErrorMessage name="description" />
           <br />
-          <div className="form-group form-check">
+          <Field
+            className="form-control"
+            type="number"
+            name="duration"
+            placeholder="Enter duration"
+          />
+          <ErrorMessage name="duration" />
+          <br />
+          <Field
+            className="form-control"
+            type="number"
+            name="validity"
+            placeholder="Enter validity"
+          />
+          <ErrorMessage name="validity" />
+          <br />
+          <Field
+            className="form-control"
+            type="text"
+            name="releaseDate"
+            placeholder="release date in yyyy/MM/dd format"
+          />
+          <ErrorMessage name="releaseDate" />
+          <br />
+          <div style={{ margin: "10px" }} className="form-group">
             <Field
               style={{ margin: "5px" }}
               type="checkbox"
@@ -68,14 +100,14 @@ const AdminCourseForm = (props) => {
               className="form-check-input"
               id="isDelete"
             />
-            <label htmlFor="isDelete" className="form-check-label">
+            <label htmlFor="isDelete" className="form-check-label text-muted">
               {" "}
               IsDelete{" "}
             </label>
             <ErrorMessage name="isDelete" />
             <br />
           </div>
-          <div className="checkbox-group"> Catergory</div>
+          <div className="radio-group text-muted"> Catergory</div>
           <label>
             <Field
               style={{
@@ -83,9 +115,9 @@ const AdminCourseForm = (props) => {
                 padding: "3px",
                 display: "inline-block",
               }}
-              type="checkbox"
+              type="radio"
               name="category"
-              value="html"
+              value="HTML"
             />{" "}
             HTML
           </label>
@@ -97,9 +129,9 @@ const AdminCourseForm = (props) => {
                 padding: "3px",
                 display: "inline-block",
               }}
-              type="checkbox"
+              type="radio"
               name="category"
-              value="css"
+              value="CSS"
             />{" "}
             CSS
           </label>
@@ -111,7 +143,7 @@ const AdminCourseForm = (props) => {
                 padding: "3px",
                 display: "inline-block",
               }}
-              type="checkbox"
+              type="radio"
               name="category"
               value="javascript"
             />{" "}
@@ -125,7 +157,7 @@ const AdminCourseForm = (props) => {
                 padding: "3px",
                 display: "inline-block",
               }}
-              type="checkbox"
+              type="radio"
               name="category"
               value="reactjs"
             />{" "}
@@ -139,7 +171,7 @@ const AdminCourseForm = (props) => {
                 padding: "3px",
                 display: "inline-block",
               }}
-              type="checkbox"
+              type="radio"
               name="category"
               value="expressjs"
             />{" "}
@@ -153,7 +185,7 @@ const AdminCourseForm = (props) => {
                 padding: "3px",
                 display: "inline-block",
               }}
-              type="checkbox"
+              type="radio"
               name="category"
               value="nodejs"
             />{" "}
@@ -167,7 +199,7 @@ const AdminCourseForm = (props) => {
                 padding: "3px",
                 display: "inline-block",
               }}
-              type="checkbox"
+              type="radio"
               name="category"
               value="mongodb"
             />{" "}
@@ -175,7 +207,7 @@ const AdminCourseForm = (props) => {
           </label>
           <br />
           <ErrorMessage name="category" />
-          <div className="radio-group"> Levels </div>
+          <div className="radio-group text-muted"> Levels </div>
           <label>
             <Field
               style={{
@@ -233,13 +265,6 @@ const AdminCourseForm = (props) => {
             type="submit"
             name="register"
             value="Register"
-          />
-          <Field
-            className="btn btn-outline-secondary"
-            style={{ margin: "5px" }}
-            type="submit"
-            name="edit"
-            value="Edit"
           />
         </Form>
       </Formik>

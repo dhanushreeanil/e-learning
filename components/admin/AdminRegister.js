@@ -3,9 +3,23 @@ import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { startRegisterAdmin } from "../../actions/adminAction";
+import {
+  startRegisterAdmin,
+  startUpdateAdmin,
+} from "../../actions/adminAction";
 
 const AdminRegister = (props) => {
+  const {
+    username: adminUsername,
+    email: adminEmail,
+    name: academyName,
+    website: academyWebsite,
+    role,
+    handleEdit,
+  } = props;
+
+  console.log("props", props);
+
   const dispatch = useDispatch();
 
   const redirect = () => {
@@ -13,32 +27,42 @@ const AdminRegister = (props) => {
   };
 
   const initialValues = {
-    username: "",
-    email: "",
+    username: adminUsername ? adminUsername : "",
+    email: adminEmail ? adminEmail : "",
     password: "",
     academy: {
-      name: "",
-      website: "",
+      name: academyName ? academyName : "",
+      website: academyWebsite ? academyWebsite : "",
     },
   };
-
-  const onSubmit = (values, onSubmitProps) => {
-    dispatch(startRegisterAdmin(values, redirect));
-    console.log("formdata-values", values);
-    onSubmitProps.resetForm();
-  };
+  console.log("initialvalues", initialValues);
 
   const validationSchema = Yup.object({
     username: Yup.string().required("Required*"),
     email: Yup.string().email("Invalid email format").required("Required*"),
-    password: Yup.string().required("Required*"),
+    password: role !== "admin" && Yup.string().required("Required*"),
     name: Yup.string().required("Required"),
   });
+
+  const onSubmit = (values, onSubmitProps) => {
+    console.log("formdata-values", values);
+    // console.log("id", admin._id);
+
+    if (role === "admin") {
+      dispatch(startUpdateAdmin(values, handleEdit));
+    } else {
+      dispatch(startRegisterAdmin(values, redirect));
+    }
+
+    onSubmitProps.resetForm();
+  };
 
   return (
     <div className="container-fluid">
       <div className="display-6">
-        <p style={{ margin: "20px" }}> Register With Us</p>
+        <p style={{ margin: "20px" }}>
+          {role === "admin" ? "Edit Admin Info" : "Register With Us"}
+        </p>
       </div>
       <Formik
         initialValues={initialValues}
@@ -62,14 +86,17 @@ const AdminRegister = (props) => {
           />
           <ErrorMessage name="email" />
           <br />
-          <Field
-            className="form-control"
-            type="password"
-            name="password"
-            placeholder="Enter password"
-          />
-          <ErrorMessage name="password" />
-          <br />
+          {!role && (
+            <>
+              <Field
+                className="form-control"
+                type="password"
+                name="password"
+                placeholder="Enter password"
+              />
+              <ErrorMessage name="password" /> <br />
+            </>
+          )}
           <Field
             className="form-control"
             type="text"
@@ -77,6 +104,7 @@ const AdminRegister = (props) => {
             placeholder="Enter academy name"
           />
           <ErrorMessage name="academy.name" />
+
           <br />
           <Field
             className="form-control"
@@ -86,20 +114,23 @@ const AdminRegister = (props) => {
           />
           <ErrorMessage name="academy.website" />
           <br />
-          <Field
-            className="btn btn-outline-primary"
-            style={{ margin: "5px" }}
-            type="submit"
-            name="register"
-            value="Register"
-          />
-          <Field
-            className="btn btn-outline-secondary"
-            style={{ margin: "5px" }}
-            type="submit"
-            name="edit"
-            value="Edit"
-          />
+          {role === "admin" ? (
+            <Field
+              className="btn btn-outline-secondary"
+              style={{ margin: "5px" }}
+              type="submit"
+              name="update"
+              value="update"
+            />
+          ) : (
+            <Field
+              className="btn btn-outline-primary"
+              style={{ margin: "5px" }}
+              type="submit"
+              name="register"
+              value="Register"
+            />
+          )}
         </Form>
       </Formik>
     </div>

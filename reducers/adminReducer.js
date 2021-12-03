@@ -1,14 +1,18 @@
-const adminInitialState = {}
+const adminInitialState = {};
 
- const adminReducer = ( state = adminInitialState, action ) =>{
-    switch(action.type){
-        case "SET_ADMIN" : {
-            return {...action.payload}
-        }
-        default : {
-            return {...state}
-        }
+const adminReducer = (state = adminInitialState, action) => {
+  switch (action.type) {
+    case "SET_ADMIN": {
+      return { ...action.payload };
     }
-}
+    case "EDIT_ADMIN": {
+      return { ...state, ...action.payload };
+    }
 
-export default adminReducer
+    default: {
+      return { ...state };
+    }
+  }
+};
+
+export default adminReducer;

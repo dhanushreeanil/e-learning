@@ -19,7 +19,7 @@ const StudentLogin = (props) => {
 
   const onSubmit = (values, onSubmitProps) => {
     dispatch(startLoginStudent(values, redirect));
-    console.log("formdata-values", values);
+    // console.log("formdata-values", values);
     onSubmitProps.resetForm();
     props.handleAuth();
   };

@@ -1,45 +1,57 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { startLoginAdmin } from "../../actions/adminAction";
+import { startRegisterStudent } from "../../actions/studentAction";
 
-const Login = (props) => {
+const StudentRegister = (props) => {
   const dispatch = useDispatch();
 
-  const redirect = () => {
-    props.history.push("/");
-  };
+  const admin = useSelector((state) => {
+    return state.admin;
+  });
+  // console.log("admin", admin);
 
   const initialValues = {
+    name: "",
     email: "",
     password: "",
   };
 
   const onSubmit = (values, onSubmitProps) => {
-    dispatch(startLoginAdmin(values, redirect));
-    // console.log("formdata-values", values);
+    if (admin.role === "admin") {
+      const result = { ...values, isAllowed: true };
+      dispatch(startRegisterStudent(result));
+      // console.log("formdata-values", result);
+    } else {
+      console.log("cannot create account as you are not admin");
+    }
     onSubmitProps.resetForm();
-    props.handleAuth();
   };
 
   const validationSchema = Yup.object({
+    name: Yup.string().required("Required*"),
     email: Yup.string().email("Invalid email format").required("Required*"),
     password: Yup.string().required("Required*"),
   });
 
   return (
     <div className="container-fluid">
-      <p className="display-6" style={{ margin: "20px" }}>
-        Login With Us
-      </p>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         <Form className="form-group" style={{ width: "50%" }}>
+          <Field
+            className="form-control"
+            type="text"
+            name="name"
+            placeholder="Enter name"
+          />
+          <ErrorMessage name="name" />
+          <br />
           <Field
             className="form-control"
             type="text"
@@ -58,15 +70,9 @@ const Login = (props) => {
           <br />
           <Field
             className="btn btn-outline-primary"
-            style={{ margin: "5px" }}
             type="submit"
-            value="Login"
-          />
-          <Field
-            className="btn btn-outline-danger"
-            style={{ margin: "5px" }}
-            type="submit"
-            value="Cancel"
+            name="register"
+            value="Register"
           />
         </Form>
       </Formik>
@@ -74,4 +80,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default StudentRegister;

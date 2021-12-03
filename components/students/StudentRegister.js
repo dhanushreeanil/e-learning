@@ -6,24 +6,36 @@ import * as Yup from "yup";
 import { startRegisterStudent } from "../../actions/studentAction";
 
 const StudentRegister = (props) => {
+  const {
+    name: studentName,
+    email: studentEmail,
+    isAllowed: studentIsAllowed,
+  } = props;
+
+  // useEffect(() => {
+  //   if (isSaved) {
+  //     toggleIsSaved();
+  //   }
+  // }, [isSaved]);
+
   const dispatch = useDispatch();
 
   const admin = useSelector((state) => {
     return state.admin;
   });
-  console.log("admin", admin);
+  // console.log("admin", admin);
 
   const initialValues = {
-    name: "",
-    email: "",
+    name: studentName ? studentEmail : "",
+    email: studentEmail ? studentEmail : "",
     password: "",
+    isAllowed: studentIsAllowed ? studentIsAllowed : false,
   };
 
   const onSubmit = (values, onSubmitProps) => {
     if (admin.role === "admin") {
-      const result = { ...values, isAllowed: true };
-      dispatch(startRegisterStudent(result));
-      console.log("formdata-values", result);
+      dispatch(startRegisterStudent(values));
+      console.log("formdata-values", values);
     } else {
       console.log("cannot create account as you are not admin");
     }
@@ -68,8 +80,22 @@ const StudentRegister = (props) => {
           />
           <ErrorMessage name="password" />
           <br />
+          <div className="form-group form-check">
+            <Field
+              style={{ margin: "5px" }}
+              type="checkbox"
+              name="isAllowed"
+              className="form-check-input"
+              id="isAllowed"
+            />
+            <label htmlFor="isAllowed" className="form-check-label text-muted">
+              isAllowed
+            </label>
+            <ErrorMessage name="isAllowed" />
+            <br />
+          </div>
           <Field
-            className="btn btn-outline-primary"
+            className="btn btn-outline-primary m-3"
             type="submit"
             name="register"
             value="Register"
