@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import { Link, Route, withRouter } from "react-router-dom";
+import "../styles/Navbar.css";
 
 import Home from "./Home";
 import AdminRegister from "./admin/AdminRegister";
-import Login from "./admin/AdminLogin";
+import Login from "./Login";
 import AdminAccount from "./admin/AdminAccount";
 import AdminCoursesList from "./admin/AdminCoursesList";
-import StudentLogin from "./students/StudentLogin";
 import StudentList from "./students/StudentList";
 import { startGetadmin } from "../actions/adminAction";
 import { useDispatch } from "react-redux";
+import logo from "../assets/logo.jpg";
 
 const NavBar = (props) => {
   const { isLoggedIn, handleAuth } = props;
@@ -25,10 +26,10 @@ const NavBar = (props) => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
           <a href="#" className="navbar-brand">
-            REACH ACADEMY
+            <img src={logo} alt="logo" />
           </a>
           <button
             type="button"
@@ -38,9 +39,13 @@ const NavBar = (props) => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarMenu">
-            <ul className="navbar-nav">
-              <li className="nav-item">
+          <div
+            className="collapse navbar-collapse"
+            style={{ justifyContent: "right" }}
+            id="navbarMenu"
+          >
+            <ul className="navbar-nav top-nav">
+              <li className="nav-item active">
                 <Link className="nav-link" to="/">
                   {" "}
                   Home{" "}
@@ -97,32 +102,31 @@ const NavBar = (props) => {
                         Register{" "}
                       </Link>
                     </li>
-                    <li>
-                      <Link className="dropdown-item" to="/admin/login">
-                        {" "}
-                        Login{" "}
-                      </Link>
-                    </li>
                   </ul>
                 )}
               </li>
-              <li className="nav-item dropdown">
-                <Link
+              {/* <li className="nav-item dropdown"> */}
+              {/* <Link
                   className="nav-link dropdown-toggle"
                   data-bs-toggle="dropdown"
                   to="/student"
                 >
                   {" "}
                   Student{" "}
-                </Link>
-                <ul className="dropdown-menu">
+                </Link> */}
+              {/* <ul className="dropdown-menu">
                   <li>
                     <Link className="dropdown-item" to="/student/login">
                       {" "}
                       Login{" "}
                     </Link>
                   </li>
-                </ul>
+                </ul> */}
+              {/* </li> */}
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">
+                  Login
+                </Link>
               </li>
             </ul>
           </div>
@@ -133,7 +137,7 @@ const NavBar = (props) => {
       <Route exact path="/admin/register" component={AdminRegister} />
       <Route
         exact
-        path="/admin/login"
+        path="/login"
         render={(props) => {
           return <Login {...props} handleAuth={handleAuth} />;
         }}
@@ -159,7 +163,6 @@ const NavBar = (props) => {
           return <StudentList {...props} isLoggedIn={isLoggedIn} />;
         }}
       />
-      <Route path="/student/login" component={StudentLogin} />
     </div>
   );
 };

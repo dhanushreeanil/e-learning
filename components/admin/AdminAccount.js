@@ -10,8 +10,6 @@ const AdminAccount = (props) => {
     return state.admin;
   });
 
-  // console.log("admin-account", admin);
-
   const handleEdit = () => {
     setToggle(!toggle);
   };
@@ -20,8 +18,8 @@ const AdminAccount = (props) => {
     <div className="container">
       <button
         type="button"
-        style={{ margin: "15px" }}
-        className="btn btn-secondary"
+        style={{ width: "10%" }}
+        className="btn btn-secondary m-3"
         onClick={handleEdit}
         value="edit"
       >
@@ -41,9 +39,7 @@ const AdminAccount = (props) => {
         </>
       ) : (
         <>
-          <p className="display-6" style={{ margin: "20px" }}>
-            Account Details{" "}
-          </p>
+          <p className="display-6">Account Details </p>
           <div>
             <p>
               Email - <strong> {admin.email} </strong>

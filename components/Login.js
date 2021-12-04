@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-import { startLoginAdmin } from "../../actions/adminAction";
+import { startLoginAdmin } from "../actions/adminAction";
+import { startLoginStudent } from "../actions/studentAction";
 
 const Login = (props) => {
   const dispatch = useDispatch();
 
+  const admin = useSelector((state) => state.admin);
+  console.log("admin", admin);
   const redirect = () => {
     props.history.push("/");
   };
@@ -18,8 +21,12 @@ const Login = (props) => {
   };
 
   const onSubmit = (values, onSubmitProps) => {
-    dispatch(startLoginAdmin(values, redirect));
-    // console.log("formdata-values", values);
+    console.log("formdata-values", values);
+    if (values.email === admin.email) {
+      dispatch(startLoginAdmin(values, redirect));
+    } else {
+      dispatch(startLoginStudent(values, redirect));
+    }
     onSubmitProps.resetForm();
     props.handleAuth();
   };
@@ -32,7 +39,7 @@ const Login = (props) => {
   return (
     <div className="container-fluid">
       <p className="display-6" style={{ margin: "20px" }}>
-        Login With Us
+        Login here
       </p>
       <Formik
         initialValues={initialValues}

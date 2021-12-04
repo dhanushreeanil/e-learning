@@ -19,6 +19,7 @@ const StudentsTable = (props) => {
   const students = useSelector((state) => {
     return state.students;
   });
+  console.log("students", students);
 
   const handleEdit = (student) => {
     console.log("handleedit", student);
@@ -53,7 +54,9 @@ const StudentsTable = (props) => {
               <tr key={student._id}>
                 <td> {student.name} </td>
                 <td> {student.email} </td>
-                <td> {student.courses} </td>
+                <td>
+                  {student.courses.length > 0 ? student.courses.length : "nil"}
+                </td>
                 <td> {student.role} </td>
                 <td> {student.isAllowed ? "allowed" : "not allowed"} </td>
                 <td>
@@ -65,7 +68,6 @@ const StudentsTable = (props) => {
                     }}
                   >
                     <FaUserEdit size="15px" />
-                    {/* edit */}
                   </button>
                   <button
                     style={{ margin: "5px" }}

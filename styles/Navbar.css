@@ -1,0 +1,18 @@
+.navbar {
+  border-bottom: 2px solid #192c61;
+  padding: 0px;
+}
+
+img {
+  width: 210px;
+  height: 60px;
+}
+
+.nav-link {
+  color: #1b2d58;
+}
+
+.dropdown-item {
+  font-weight: 350;
+  color: #1f2b5a;
+}

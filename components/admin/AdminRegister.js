@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import "../../styles/form.css";
 
 import {
   startRegisterAdmin,
@@ -23,7 +24,7 @@ const AdminRegister = (props) => {
   const dispatch = useDispatch();
 
   const redirect = () => {
-    props.history.push("/admin/login");
+    props.history.push("/login");
   };
 
   const initialValues = {
@@ -48,28 +49,26 @@ const AdminRegister = (props) => {
     console.log("formdata-values", values);
     // console.log("id", admin._id);
 
-    if (role === "admin") {
-      dispatch(startUpdateAdmin(values, handleEdit));
-    } else {
-      dispatch(startRegisterAdmin(values, redirect));
-    }
+    // if (role === "admin") {
+    //   dispatch(startUpdateAdmin(values, handleEdit));
+    // } else {
+    //   dispatch(startRegisterAdmin(values, redirect));
+    // }
 
     onSubmitProps.resetForm();
   };
 
   return (
     <div className="container-fluid">
-      <div className="display-6">
-        <p style={{ margin: "20px" }}>
-          {role === "admin" ? "Edit Admin Info" : "Register With Us"}
-        </p>
-      </div>
+      <p className="display-6">
+        {role === "admin" ? "Edit Admin Info" : "Register With Us"}
+      </p>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        <Form className="form-group" style={{ width: "50%" }}>
+        <Form className="form-group">
           <Field
             className="form-control"
             type="text"

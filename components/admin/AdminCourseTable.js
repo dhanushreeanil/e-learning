@@ -7,6 +7,7 @@ import {
   startGetCoursesAdmin,
   startRemoveCourse,
   startGetCourse,
+  // startEnrollStudent,
 } from "../../actions/AdminCourseAction";
 
 const AdminCourseTable = (props) => {
@@ -25,6 +26,10 @@ const AdminCourseTable = (props) => {
     console.log("handleshow", id);
     dispatch(startGetCourse(id));
   };
+
+  // const handleEnroll = (courseId) => {
+  //   // dispatch(startEnrollStudent(courseId));
+  // };
 
   const handleRemove = (id) => {
     const confirm = window.confirm("Are you sure ?");
@@ -53,7 +58,7 @@ const AdminCourseTable = (props) => {
                 <td> {course.name} </td>
                 <td> {course.description} </td>
                 <td>
-                  {course.students.lenght >= 0 ? course.students : <p> nil </p>}
+                  {course.students.length > 0 ? course.students.length : "nil"}
                 </td>
                 <td>
                   <button
@@ -72,7 +77,7 @@ const AdminCourseTable = (props) => {
                     style={{ margin: "5px" }}
                     className="btn btn-outline-success btn-sm"
                     onClick={() => {
-                      // handleEdit(course);
+                      // handleEnroll(course._id);
                     }}
                   >
                     {" "}

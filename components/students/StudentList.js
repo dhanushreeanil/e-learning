@@ -6,33 +6,36 @@ import StudentRegister from "./StudentRegister";
 import StudentsTable from "./StudentsTable";
 
 const StudentList = (props) => {
-  const [isClicked, setIsClicked] = useState(false);
+  const [isAddStudent, setisAddStudent] = useState(false);
 
   const admin = useSelector((state) => {
     return state.admin;
   });
 
-  // const students = useSelector((state) => {
-  //   return state.students;
-  // });
-
   const handleRegister = () => {
-    setIsClicked(!isClicked);
+    setisAddStudent(!isAddStudent);
   };
 
   return (
-    <div>
+    <div className="container-fluid m-3">
       {admin.role === "admin" ? (
-        <div>
-          <button
-            style={{ margin: "15px" }}
-            className="btn btn-outline-primary"
-            onClick={handleRegister}
-          >
-            <FaUserPlus size="15px" /> Add Student
-          </button>
-          {isClicked && <StudentRegister />}
-          {admin && <StudentsTable />}
+        <div className="row">
+          <div className="col-8">
+            <StudentsTable />
+          </div>
+          <div className="col-4 text-center">
+            <button
+              style={{ margin: "15px" }}
+              className="btn btn-outline-primary"
+              onClick={handleRegister}
+            >
+              {" "}
+              <FaUserPlus size="15px" /> Add Student
+            </button>
+            {isAddStudent && (
+              <StudentRegister handleRegister={handleRegister} />
+            )}
+          </div>
         </div>
       ) : null}
     </div>

@@ -93,26 +93,26 @@ export const editStudent = (student) => {
   };
 };
 
-// update student
+// // update student
 
-export const startUpdateStudent = (student) => {
-  return (dispatch) => {
-    axios
-      .put(`https://dct-e-learning.herokuapp.com/api/students/${student._id}`, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      })
-      .then((response) => {
-        const result = response.data;
-        console.log("update api", result);
-        // dispatch(editStudent(result));
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-};
+// export const startUpdateStudent = (student) => {
+//   return (dispatch) => {
+//     axios
+//       .put(`https://dct-e-learning.herokuapp.com/api/students/${student._id}`, {
+//         headers: {
+//           Authorization: localStorage.getItem("token"),
+//         },
+//       })
+//       .then((response) => {
+//         const result = response.data;
+//         console.log("update api", result);
+//         // dispatch(editStudent(result));
+//       })
+//       .catch((error) => {
+//         alert(error.message);
+//       });
+//   };
+// };
 
 // get all students
 

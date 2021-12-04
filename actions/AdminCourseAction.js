@@ -138,3 +138,32 @@ export const removeCourse = (id) => {
     payload: id,
   };
 };
+
+// enroll student
+
+// export const startEnrollStudent = (courseId,studentId) => {
+//   return (dispatch) => {
+//     axios
+//       .patch(
+//         `https://dct-e-learning.herokuapp.com/api/courses/enroll?courseId=${courseId}&studentId=${studentId}`,
+//         {
+//           headers: {
+//             Authorization: localStorage.getItem("token"),
+//           },
+//         }
+//       )
+//       .then((response) => {
+//         const result = response.data;
+//         console.log("all courses-api", result);
+//         if (result.hasOwnProperty("errors")) {
+//           alert(result.message);
+//         } else {
+//           dispatch(setCourses(result));
+//         }
+//       })
+//       .catch((err) => {
+//         const error = err.message;
+//         console.log("error in register post api", error);
+//       });
+//   };
+// };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BsFillBookmarkPlusFill } from "react-icons/bs";
 
 import AdminCourseTable from "./AdminCourseTable";
@@ -15,21 +15,30 @@ const AdminCoursesList = (props) => {
   const admin = useSelector((state) => {
     return state.admin;
   });
-  // console.log("admin-account", admin);
 
   return (
-    <div>
+    <div className="container-fluid m-3">
       {admin.role === "admin" ? (
         <div>
-          <button
-            style={{ margin: "15px" }}
-            className="btn btn-outline-primary"
-            onClick={handleClick}
-          >
-            <BsFillBookmarkPlusFill size="15px" /> Add Course
-          </button>
-          {isClicked && <AdminCourseForm handleClick={handleClick} />}
-          {admin ? <AdminCourseTable /> : <p> No Courses found. </p>}
+          <div className="row">
+            {admin ? (
+              <div className="col-8">
+                <AdminCourseTable />{" "}
+              </div>
+            ) : (
+              <p> No Courses found. </p>
+            )}
+            <div className="col-4 text-center">
+              <button
+                style={{ margin: "15px" }}
+                className="btn btn-outline-primary"
+                onClick={handleClick}
+              >
+                <BsFillBookmarkPlusFill size="15px" /> Create Course
+              </button>
+              {isClicked && <AdminCourseForm handleClick={handleClick} />}
+            </div>
+          </div>
         </div>
       ) : null}
     </div>
